@@ -2,6 +2,8 @@ package sx.CRUDApp.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
@@ -16,14 +18,16 @@ public class Client {
 
     @Column(name = "fio")
     @NotNull
+    @Size(min = 5, max = 255, message = "Слишком короткое ФИО")
     private String fio;
 
     @Column(name = "number")
     @NotNull
+    @Pattern(regexp = "^\\+375\\(?\\d{2}\\)?[-\\s]?\\d{3}[-\\s]?\\d{2}[-\\s]?\\d{2}$",
+            message = "Неправильный телефон")
     private String phoneNumber;
 
-    @Transient
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Carpet> carpetList;
 
 

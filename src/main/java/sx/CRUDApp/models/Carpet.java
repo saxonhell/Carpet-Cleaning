@@ -2,7 +2,7 @@ package sx.CRUDApp.models;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "carpet")
@@ -13,15 +13,22 @@ public class Carpet {
     private int id;
 
     @Column(name = "length")
-    @NotNull
+    @NotNull(message = "Значение длинны ковра не может быть пустым.")
+    @Min(value = 1, message = "Значение длины не может быть меньше 1 см.")
+    @Max(value = 700, message = "Значение длины не может быть больше 700 см.")
     private double length;
 
     @Column(name = "width")
-    @NotNull
+    @NotNull(message = "Значение ширины ковра не может быть пустым.")
+    @Min(value = 1, message = "Значение ширины не может быть меньше 1 см.")
+    @Max(value = 700, message = "Значение ширины не может быть больше 700 см.")
     private double width;
 
     @Column(name = "height_worth")
-    @NotNull
+    @NotNull(message = "Значение высоты ворса не может быть пустым.")
+    @Min(value = 1, message = "Значение высоты ворса не может быть меньше 1 см.")
+    @Max(value = 50, message = "Значение высоты ворса не может быть больше 50 см.")
+    //todo: обработка пустых значений в конструкторе
     private double heightWorth;
 
     @Column(name = "overlock")
@@ -35,10 +42,13 @@ public class Carpet {
     @Column(name = "remove_Plasticine")
     private boolean removePlasticine;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client owner;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    private Order order;
 
     public Carpet() {
 
@@ -53,7 +63,7 @@ public class Carpet {
         this.removePlasticine = removePlasticine;
     }
 
-    public Carpet(double length, double width, double heightWorth, boolean overlock, boolean removeSmell, boolean removePlasticine, Client owner) {
+    public Carpet(double length, double width, double heightWorth, boolean overlock, boolean removeSmell, boolean removePlasticine, Client owner, Order order) {
         this.length = length;
         this.width = width;
         this.heightWorth = heightWorth;
@@ -61,6 +71,15 @@ public class Carpet {
         this.removeSmell = removeSmell;
         this.removePlasticine = removePlasticine;
         this.owner = owner;
+        this.order = order;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public Client getOwner() {
