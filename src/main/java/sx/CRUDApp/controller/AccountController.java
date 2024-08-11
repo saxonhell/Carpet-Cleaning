@@ -34,16 +34,22 @@ public class AccountController {
 
 
     @GetMapping
-    public String index(HttpServletRequest request) {
+    public String index(HttpServletRequest request, Model model) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
-            boolean hasUsernameCookie = Arrays.stream(cookies)
-                    .anyMatch(cookie -> "username".equals(cookie.getName()));
+            Optional<Cookie> usernameCookie = Arrays.stream(cookies)
+                    .filter(cookie -> "username".equals(cookie.getName()))
+                    .findFirst();
 
-            if (!hasUsernameCookie) {
+            if (usernameCookie.isEmpty()) {
                 return "redirect:/acc/login";
             }
+
+            model.addAttribute("employee", employeeService.findByName(usernameCookie.get().getValue()));
+        } else {
+            return "redirect:/acc/login";
         }
+
         return "account/accountPage";
     }
 
@@ -96,7 +102,8 @@ public class AccountController {
     @PostMapping("/login")
     public String authentication(@ModelAttribute("employee") Employee employee,
                                  BindingResult bindingResult,
-                                 HttpServletResponse response){
+                                 HttpServletResponse response,
+                                 Model model){
         if (bindingResult.hasErrors()) {
             return "redirect:/acc/auth";
         }
@@ -106,6 +113,7 @@ public class AccountController {
         response.addCookie(cookie);
         //todo сделать аутентификацию
 
+        model.addAttribute("employee", employee);
         return "account/accountPage";
     }
 

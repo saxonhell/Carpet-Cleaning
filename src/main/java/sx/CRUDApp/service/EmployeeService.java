@@ -56,4 +56,10 @@ public class EmployeeService {
         }
     }
 
+    public Employee findByName(String name){
+        if(employeeRepo.findByUsername(name).isPresent()){
+            return  employeeRepo.findByUsername(name).get();
+        }
+        return null;
+    }
 }

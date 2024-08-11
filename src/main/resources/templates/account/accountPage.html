@@ -1,10 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Employee Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+        }
+        .container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .info {
+            margin-bottom: 10px;
+        }
+        .info label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #777;
+        }
+        .info span {
+            display: block;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-
+<div class="container">
+    <h1>Информация о работнике</h1>
+    <div class="info">
+        <label>Полное имя (ФИО):</label>
+        <span th:text="${employee.fio}"></span>
+    </div>
+    <div class="info">
+        <label>Номер телефона:</label>
+        <span th:text="${employee.phoneNumber}"></span>
+    </div>
+    <div class="info">
+        <label>Username:</label>
+        <span th:text="${employee.username}"></span>
+    </div>
+    <div class="info">
+        <label>Роль:</label>
+        <span th:text="${employee.role.russianName}"></span>
+    </div>
+</div>
 </body>
 </html>
