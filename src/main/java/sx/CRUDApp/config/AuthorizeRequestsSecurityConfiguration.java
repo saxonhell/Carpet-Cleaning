@@ -1,4 +1,4 @@
-package sx.CRUDApp;
+package sx.CRUDApp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

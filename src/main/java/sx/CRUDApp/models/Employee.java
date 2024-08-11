@@ -18,7 +18,7 @@ public class Employee {
 
     @Column(name = "number")
     @NotNull
-    @Pattern(regexp = "^\\+375\\(?\\d{2}\\)?[-\\s]?\\d{3}[-\\s]?\\d{2}[-\\s]?\\d{2}$",
+    @Pattern(regexp = "^\\+375\\s?\\(?\\d{2}\\)?\\s?\\d{3}\\s?\\d{2}\\s?\\d{2}$",
             message = "Неправильный телефон")
     private String phoneNumber;
 
@@ -27,9 +27,9 @@ public class Employee {
     @Size(min = 8, max = 24, message = "Недопустимая длинна пароля")
     private String pass;
 
-    @Column(name = "role")
-    @NotNull
-    private String role;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private Role role;
 
     @Column(name = "username")
     @NotNull
@@ -39,7 +39,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String fio, String phoneNumber, String pass, String role, String username) {
+    public Employee(String fio, String phoneNumber, String pass, Role role, String username) {
         this.fio = fio;
         this.phoneNumber = phoneNumber;
         this.pass = pass;
@@ -79,11 +79,11 @@ public class Employee {
         this.pass = pass;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

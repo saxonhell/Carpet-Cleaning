@@ -1,5 +1,6 @@
 package sx.CRUDApp.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +37,23 @@ public class EmployeeService {
     }
 
     @Transactional
-    public void delete(Employee employee){
-        employeeRepo.delete(employee);
+    public void deleteById(int id){
+        employeeRepo.deleteById(id);
     }
+
+    @Transactional
+    public void updateEmployee(Employee updatedEmployee) {
+        if (employeeRepo.existsById(updatedEmployee.getId())) {
+            employeeRepo.updateEmployee(
+                    updatedEmployee.getId(),
+                    updatedEmployee.getFio(),
+                    updatedEmployee.getPhoneNumber(),
+                    updatedEmployee.getRole().getId(),
+                    updatedEmployee.getUsername()
+            );
+        } else {
+            throw new EntityNotFoundException("Employee not found with id: " + updatedEmployee.getId());
+        }
+    }
+
 }
