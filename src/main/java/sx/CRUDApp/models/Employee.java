@@ -2,6 +2,7 @@ package sx.CRUDApp.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.UniqueElements;
 
 @Entity
 @Table(name = "employee")
@@ -24,7 +25,7 @@ public class Employee {
 
     @Column(name = "pass")
     @NotNull
-    @Size(min = 8, max = 24, message = "Недопустимая длинна пароля")
+    @Size(min = 8, max = 100, message = "Недопустимая длинна пароля")
     private String pass;
 
     @ManyToOne(fetch = FetchType.EAGER)

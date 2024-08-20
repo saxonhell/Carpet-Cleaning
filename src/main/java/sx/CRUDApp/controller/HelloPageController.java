@@ -12,9 +12,6 @@ public class HelloPageController {
 
     @GetMapping
     public String generalPage(HttpServletResponse response){
-        Cookie cookie = new Cookie("username", null);
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
         return "hello-page/index";
     }
 }
