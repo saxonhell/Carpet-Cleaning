@@ -30,9 +30,10 @@ public class AuthorizeRequestsSecurityConfiguration {
                         .requestMatchers("/").permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(formLogin -> formLogin
+                .formLogin(form -> form
                         .loginPage("/acc/login")
-                        .defaultSuccessUrl("/acc")
+                        .loginProcessingUrl("/acc/login")
+                        .defaultSuccessUrl("/acc", true)
                         .failureUrl("/acc/login?error=true")
                 )
                 .logout(logout -> logout

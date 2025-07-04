@@ -8,11 +8,16 @@ import sx.CRUDApp.models.Employee;
 import java.util.Collection;
 import java.util.Collections;
 
-public record EmployeeDetails(Employee employee) implements UserDetails {
+public class EmployeeDetails implements UserDetails {
+    private final Employee employee;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(employee.getRole().getName()));
+    }
+
+    public EmployeeDetails(Employee employee) {
+        this.employee = employee;
     }
 
     @Override
